@@ -1,0 +1,34 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mongodb-cluster-config
+  title: "Generate MongoDB Cluster YAML"
+  description: "Creates a YAML configuration file for MongoDB Atlas clusters"
+spec:
+  owner: gary@barry.mdbpsce.net
+  type: configuration
+  parameters:
+    - title: Cluster Details
+      required:
+        - clusterName
+        - clusterSize
+      properties:
+        clusterName:
+          type: string
+          title: Cluster Name
+        clusterSize:
+          type: string
+          title: Cluster Size
+          enum:
+            - small
+            - large
+  steps:
+    - id: generate-yaml
+      name: Generate YAML
+      action: fs:write-file
+      input:
+        path: "./output/${{ parameters.clusterName }}.yaml"
+        contents: |
+          cluster_name: ${{ parameters.clusterName }}
+          provider_instance_size_name: ${{ parameters.clusterSize == 'small' ? 'M10' : 'M20' }}
+
