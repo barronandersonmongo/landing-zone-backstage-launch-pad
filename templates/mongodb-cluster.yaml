@@ -8,7 +8,7 @@ spec:
   owner: gary@barry.mdbpsce.net
   type: configuration
   parameters:
-    - title: Cluster Details
+    - title: Cluster Configuration
       required:
         - clusterName
         - clusterSize
@@ -23,12 +23,18 @@ spec:
             - small
             - large
   steps:
-    - id: generate-yaml
-      name: Generate YAML
-      action: fs:write-file
+    - id: fetch-template
+      name: Fetch Template
+      action: fetch:template
       input:
-        path: "./output/${{ parameters.clusterName }}.yaml"
-        contents: |
-          cluster_name: ${{ parameters.clusterName }}
-          provider_instance_size_name: ${{ parameters.clusterSize == 'small' ? 'M10' : 'M20' }}
+        url: ./skeleton  # Reference the local skeleton directory
+        values:
+          clusterName: ${{ parameters.clusterName }}
+          clusterSize: ${{ parameters.clusterSize }}
+          currentDate: ${{ (new Date()).toISOString().split('T')[0] }}
+    - id: publish
+      name: Publish to Local Directory
+      action: publish:file
+      input:
+        targetPath: "./output/${{ parameters.clusterName }}-${{ (new Date()).toISOString().split('T')[0] }}.yaml"
 
