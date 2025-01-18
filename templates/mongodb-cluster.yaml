@@ -12,7 +12,7 @@ spec:
       required:
         - clusterName
         - clusterSize
-        - targetRepo  # CHANGED
+        - repoUrl  # CHANGED
       properties:
         clusterName:
           type: string
