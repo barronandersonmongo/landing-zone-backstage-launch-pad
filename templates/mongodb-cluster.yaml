@@ -12,6 +12,7 @@ spec:
       required:
         - clusterName
         - clusterSize
+        - targetRepo  # CHANGED
       properties:
         clusterName:
           type: string
@@ -23,6 +24,11 @@ spec:
             - Small
             - Medium
             - Large
+        targetRepo:  # CHANGED
+          type: string
+          title: Target GitHub Repository
+          description: "Select the GitHub repository where the YAML file will be published."  # CHANGED
+          ui:field: RepoPicker  # CHANGED
   steps:
     - id: fetch-template
       name: Fetch Template
@@ -31,13 +37,13 @@ spec:
         url: ./skeleton
         values:
           cluster_name: ${{ parameters.clusterName }}
-          provider_instance_size_name: ${{ parameters.clusterSize }}  # Use enum literals directly
+          provider_instance_size_name: ${{ parameters.clusterSize }}
           currentDate: ${{ (new Date()).toISOString().split('T')[0] }}
     - id: publish-to-github
       name: Publish to GitHub
       action: publish:github
       input:
-        repoUrl: github.com/barronandersonmongo/tfe-test
+        repoUrl: ${{ parameters.targetRepo }}  # CHANGED
         branch: main
         filePath: "new_cluster_requests/${{ parameters.clusterName }}.yaml"
 
