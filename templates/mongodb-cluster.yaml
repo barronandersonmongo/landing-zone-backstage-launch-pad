@@ -24,20 +24,20 @@ spec:
             - Medium
             - Large
   steps:
-    - id: generate-yaml
-      name: Generate YAML Configuration
-      action: write:template
+    - id: fetch-template
+      name: Fetch Template
+      action: fetch:template
       input:
-        targetPath: "new_cluster_requests/${{ parameters.clusterName }}.yaml"
-        content: |
+        url: ./skeleton  # Relative path to your skeleton directory
+        values:
           cluster_name: ${{ parameters.clusterName }}
           provider_instance_size_name: ${{ parameters.clusterSize == 'Large' ? 'M30' : parameters.clusterSize == 'Medium' ? 'M20' : 'M10' }}
-          created_date: ${{ (new Date()).toISOString().split('T')[0] }}
+          currentDate: ${{ (new Date()).toISOString().split('T')[0] }}
     - id: publish-to-github
       name: Publish to GitHub
       action: publish:github
       input:
         repoUrl: github.com/barronandersonmongo/tfe-test  # Target repo
-        branch: main  # Target branch
+        branch: main
         filePath: "new_cluster_requests/${{ parameters.clusterName }}.yaml"
 
