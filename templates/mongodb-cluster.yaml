@@ -31,7 +31,8 @@ spec:
         url: ./skeleton  # Relative path to your skeleton directory
         values:
           cluster_name: ${{ parameters.clusterName }}
-          provider_instance_size_name: ${{ parameters.clusterSize == 'Large' ? 'M30' : parameters.clusterSize == 'Medium' ? 'M20' : 'M10' }}
+          # provider_instance_size_name: ${{ parameters.clusterSize == 'Large' ? 'M30' : parameters.clusterSize == 'Medium' ? 'M20' : 'M10' }}
+          provider_instance_size_name: ${{ parameters.clusterSize === 'Large' && 'M30' || parameters.clusterSize === 'Medium' && 'M20' || 'M10' }}
           currentDate: ${{ (new Date()).toISOString().split('T')[0] }}
     - id: publish-to-github
       name: Publish to GitHub
