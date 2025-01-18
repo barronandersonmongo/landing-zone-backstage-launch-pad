@@ -27,7 +27,7 @@ spec:
         repoUrl:
           title: Repository Location
           type: string
-          default: "github.com/barronandersonmongo/landing-zone-backstage-launch-pad"  # Default value
+          default: "github.com?owner=barronandersonmongo&repo=landing-zone-backstage-launch-pad"
           ui:field: RepoUrlPicker
           ui:options:
             allowedHosts:
