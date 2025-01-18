@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: mongodb-cluster-config
   title: "Generate MongoDB Cluster YAML"
-  description: "Creates a YAML configuration file for MongoDB Atlas clusters"
+  description: "Asks user for cluster details and publishes a YAML configuration file to a target GitHub repository."
 spec:
   owner: gary@barry.mdbpsce.net
   type: configuration
@@ -20,21 +20,24 @@ spec:
           type: string
           title: Cluster Size
           enum:
-            - small
-            - large
+            - Small
+            - Medium
+            - Large
   steps:
-    - id: fetch-template
-      name: Fetch Template
-      action: fetch:template
+    - id: generate-yaml
+      name: Generate YAML Configuration
+      action: write:template
       input:
-        url: ./skeleton  # Reference the local skeleton directory
-        values:
-          clusterName: ${{ parameters.clusterName }}
-          clusterSize: ${{ parameters.clusterSize }}
-          currentDate: ${{ (new Date()).toISOString().split('T')[0] }}
-    - id: publish
-      name: Publish to Local Directory
-      action: publish:file
+        targetPath: "new_cluster_requests/${{ parameters.clusterName }}.yaml"
+        content: |
+          cluster_name: ${{ parameters.clusterName }}
+          provider_instance_size_name: ${{ parameters.clusterSize == 'Large' ? 'M30' : parameters.clusterSize == 'Medium' ? 'M20' : 'M10' }}
+          created_date: ${{ (new Date()).toISOString().split('T')[0] }}
+    - id: publish-to-github
+      name: Publish to GitHub
+      action: publish:github
       input:
-        targetPath: "./output/${{ parameters.clusterName }}-${{ (new Date()).toISOString().split('T')[0] }}.yaml"
+        repoUrl: github.com/barronandersonmongo/tfe-test  # Target repo
+        branch: main  # Target branch
+        filePath: "new_cluster_requests/${{ parameters.clusterName }}.yaml"
 
