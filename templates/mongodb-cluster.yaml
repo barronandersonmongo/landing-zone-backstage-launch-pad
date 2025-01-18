@@ -24,14 +24,9 @@ spec:
             - Small
             - Medium
             - Large
-        repoUrl:
-          title: Repository Location
+        comments:
+          title: Request Comments
           type: string
-          default: "github.com?owner=barronandersonmongo&repo=tfe-test"
-          ui:field: RepoUrlPicker
-          ui:options:
-            allowedHosts:
-              - github.com
   steps:
     - id: fetch-template
       name: Fetch Template
@@ -53,7 +48,7 @@ spec:
       name: Publish to GitHub
       action: github:repo:push
       input:
-        repoUrl: ${{ parameters.repoUrl }}  # CHANGED
+        repoUrl: "github.com?owner=barronandersonmongo&repo=tfe-test"
         branch: main
-        filePath: "new_cluster_requests/${{ parameters.clusterName }}.yaml"
-
+        sourcePath: "new_cluster_requests/${{ parameters.clusterName }}.yaml"
+        commitMessage: ${{ parameters.comments }}
