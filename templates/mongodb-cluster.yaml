@@ -24,11 +24,13 @@ spec:
             - Small
             - Medium
             - Large
-        targetRepo:  # CHANGED
+        repoUrl:
+          title: Repository Location
           type: string
-          title: Target GitHub Repository
-          description: "Select the GitHub repository where the YAML file will be published."  # CHANGED
-          ui:field: RepoPicker  # CHANGED
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
   steps:
     - id: fetch-template
       name: Fetch Template
@@ -43,7 +45,7 @@ spec:
       name: Publish to GitHub
       action: publish:github
       input:
-        repoUrl: ${{ parameters.targetRepo }}  # CHANGED
+        repoUrl: ${{ parameters.repoUrl }}  # CHANGED
         branch: main
         filePath: "new_cluster_requests/${{ parameters.clusterName }}.yaml"
 
