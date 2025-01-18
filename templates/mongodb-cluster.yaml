@@ -48,6 +48,6 @@ spec:
       action: github:repo:push
       input:
         repoUrl: "github.com?owner=barronandersonmongo&repo=tfe-test"
-        branch: main
+        defaultBranch: main
         sourcePath: "new_cluster_requests/${{ parameters.clusterName }}.yaml"
         commitMessage: ${{ parameters.comments }}
