@@ -41,9 +41,16 @@ spec:
           cluster_name: ${{ parameters.clusterName }}
           provider_instance_size_name: ${{ parameters.clusterSize }}
           currentDate: ${{ (new Date()).toISOString().split('T')[0] }}
+
+    - id: debug-log
+      name: Log Repository URL
+      action: debug:log
+      input:
+        message: "Publishing to repository: ${{ parameters.targetRepo }}"
+
     - id: publish-to-github
       name: Publish to GitHub
-      action: publish:github
+      action: github:repo:push
       input:
         repoUrl: ${{ parameters.repoUrl }}  # CHANGED
         branch: main
