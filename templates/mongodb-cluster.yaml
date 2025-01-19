@@ -28,21 +28,22 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: JunkX
+          title: JunkY
           type: string
   steps:
     - id: write-to-file
-      name: Create New Empty File
+      name: Create New File
       action: roadiehq:utils:fs:write
       input:
         path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
-
-    - id: append-cluster-name
-      name: Append the Cluster Name
-      action: roadiehq:utils:fs:append
-      input:
-        path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
         content: "cluster_name: ${{ parameters.clusterName }}"
+
+   #- id: append-cluster-name
+   #name: Append the Cluster Name
+   #action: roadiehq:utils:fs:append
+   #input:
+   #path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
+   #content: "cluster_name: ${{ parameters.clusterName }}"
 
     - id: append-cluster-size
       name: Append the Cluster Size
