@@ -55,3 +55,4 @@ spec:
         branchName: main
         sourcePath: "new_cluster_requests/"
         gitCommitMessage: ${{ parameters.comments }}
+        force: true
