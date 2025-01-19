@@ -12,6 +12,7 @@ spec:
       required:
         - clusterName
         - clusterSize
+        - comments
       properties:
         clusterName:
           type: string
@@ -27,10 +28,9 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: Junki
+          title: Junkj
           type: string
   steps:
-
     - id: create-file
       name: Create Cluster Config File
       action: roadiehq:utils:fs:write
@@ -40,16 +40,22 @@ spec:
           clusterName: ${{ parameters.clusterName }}
           clusterSize: ${{ parameters.clusterSize }}
 
+    - id: commit-changes
+      name: Commit Changes
+      action: github:repo:push
+      input:
+        repoUrl: "github.com?owner=barronandersonmongo&repo=tfe-test"
+        branchName: "feature/new-cluster-${{ parameters.clusterName }}"
+        sourcePath: ./new_cluster_requests/
+        gitCommitMessage: "Add cluster configuration for ${{ parameters.clusterName }}"
+
     - id: publish-to-github
-      name: Publish to GitHub
+      name: Create Pull Request
       action: publish:github:pull-request
       input:
         repoUrl: "github.com?owner=barronandersonmongo&repo=tfe-test"
-        defaultBranch: main
-        branch: main
-        branchName: main
-        title: "New Cluster Request"
-        description: "New Cluster Request"
-        sourcePath: "new_cluster_requests/"
-        gitCommitMessage: ${{ parameters.comments }}
-        # force: true
+        defaultBranch: main  # Target branch
+        branchName: "feature/new-cluster-${{ parameters.clusterName }}"  # Source branch
+        title: "New Cluster Request for ${{ parameters.clusterName }}"
+        description: "Cluster Size: ${{ parameters.clusterSize }}\n\nComments: ${{ parameters.comments }}"
+
