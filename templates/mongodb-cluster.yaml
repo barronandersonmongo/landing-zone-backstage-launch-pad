@@ -28,9 +28,15 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: JunkM
+          title: JunkN
           type: string
   steps:
+    - id: fetch-template 
+      action: fetch:template
+      name: Fetch template
+      input:
+        url: https://github.com/barronandersonmongo/tfe-test.git
+
     - id: create-file
       name: Create Cluster Config File
       action: roadiehq:utils:fs:write
