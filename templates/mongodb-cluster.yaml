@@ -27,27 +27,11 @@ spec:
           title: Request Comments
           type: string
   steps:
-    - id: fetch-template
-      name: Fetch Template
-      action: fetch:template
+    - id: create-file
+      name: Create Cluster Config File
+      action: roadiehq:utils:fs:write
       input:
-        url: ./skeleton
-        values:
+        path: "workspace/new_cluster_requests/${{ parameters.clusterName }}.yaml"
+        content: |
           cluster_name: ${{ parameters.clusterName }}
           provider_instance_size_name: ${{ parameters.clusterSize }}
-          currentDate: ${{ (new Date()).toISOString().split('T')[0] }}
-
-    - id: debug-log
-      name: Log Repository URL
-      action: debug:log
-      input:
-        message: "Publishing to repository: ${{ parameters.targetRepo }}"
-
-    - id: publish-to-github
-      name: Publish to GitHub
-      action: github:repo:push
-      input:
-        repoUrl: "github.com?owner=barronandersonmongo&repo=tfe-test"
-        defaultBranch: main
-        sourcePath: "new_cluster_requests/${{ parameters.clusterName }}.yaml"
-        commitMessage: ${{ parameters.comments }}
