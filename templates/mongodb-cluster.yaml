@@ -28,7 +28,7 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: Junkk
+          title: Junkl
           type: string
   steps:
     - id: create-file
@@ -45,7 +45,9 @@ spec:
       action: github:repo:push
       input:
         repoUrl: "github.com?owner=barronandersonmongo&repo=tfe-test"
-        branchName: "feature/new-cluster-${{ parameters.clusterName }}"
+        branch: main
+        defaultBranch: main
+        branchName: main
         sourcePath: ./new_cluster_requests/
         gitCommitMessage: "Add cluster configuration for ${{ parameters.clusterName }}"
 
