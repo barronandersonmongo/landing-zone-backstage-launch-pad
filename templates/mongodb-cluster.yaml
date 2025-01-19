@@ -28,17 +28,17 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: JunkN
+          title: JunkO
           type: string
   steps:
-    - id: fetch-template 
-      action: fetch:template
-      name: Fetch template
+    - id: fetch-repo
+      name: Fetch repo
+      action: fetch:plain
       input:
-        url: https://github.com/barronandersonmongo/tfe-test.git
+        url: https://github.com/barronandersonmongo/tfe-test
 
-    - id: create-file
-      name: Create Cluster Config File
+    - id: write-to-file
+      name: Overwrite File Or Create New
       action: roadiehq:utils:fs:write
       input:
         path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
@@ -46,14 +46,17 @@ spec:
           clusterName: ${{ parameters.clusterName }}
           clusterSize: ${{ parameters.clusterSize }}
 
-    - id: commit-changes
-      name: Commit Changes
-      action: github:repo:push
+    - id: publish-pr
+      name: Publish PR
+      action: publish:github:pull-request
       input:
-        repoUrl: "github.com?owner=barronandersonmongo&repo=tfe-test"
-        branch: main
-        defaultBranch: main
+        repoUrl: github.com?repo=tfe-test&owner=barronandersonmongo
         branchName: main
-        sourcePath: ./new_cluster_requests/
-        gitCommitMessage: "Add cluster configuration for ${{ parameters.clusterName }}"
-        force: true
+        title: Write content to main
+        description: Testing
+
+    - id: log-message
+      name: Log PR URL
+      action: debug:log
+      input:
+        message: 'RemoteURL: ${{ steps["publish-pr"].output.remoteUrl }}'
