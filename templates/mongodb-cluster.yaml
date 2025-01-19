@@ -27,7 +27,7 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: Junkb
+          title: Junkc
           type: string
   steps:
     - id: fetch-repo
