@@ -30,6 +30,12 @@ spec:
           title: Junkb
           type: string
   steps:
+    - id: fetch-repo
+      name: Fetch repo
+      action: fetch:plain
+      input:
+        url: https://github.com/barronandersonmongo/tfe-test
+
     - id: create-file
       name: Create Cluster Config File
       action: roadiehq:utils:fs:write
@@ -45,5 +51,7 @@ spec:
       input:
         repoUrl: "github.com?owner=barronandersonmongo&repo=tfe-test"
         defaultBranch: main
-        sourcePath: "new_cluster_requests/${{ parameters.clusterName }}.yaml"
+        branch: main
+        branchName: main
+        sourcePath: "new_cluster_requests/"
         gitCommitMessage: ${{ parameters.comments }}
