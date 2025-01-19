@@ -27,14 +27,23 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: Junk
+          title: Junkb
           type: string
   steps:
     - id: create-file
       name: Create Cluster Config File
       action: roadiehq:utils:fs:write
       input:
-        path: "workspace/new_cluster_requests/${{ parameters.clusterName }}.yaml"
+        path: "new_cluster_requests/${{ parameters.clusterName }}.yaml"
         content: |
           cluster_name: ${{ parameters.clusterName }}
           provider_instance_size_name: ${{ parameters.clusterSize }}
+
+    - id: publish-to-github
+      name: Publish to GitHub
+      action: github:repo:push
+      input:
+        repoUrl: "github.com?owner=barronandersonmongo&repo=tfe-test"
+        defaultBranch: main
+        sourcePath: "new_cluster_requests/${{ parameters.clusterName }}.yaml"
+        gitCommitMessage: ${{ parameters.comments }}
