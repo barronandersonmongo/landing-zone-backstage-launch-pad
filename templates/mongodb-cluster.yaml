@@ -27,9 +27,17 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: Junkf
+          title: Junkg
           type: string
   steps:
+    - id: sync-repo
+      name: Fetch Latest Repo State
+      action: fetch:plain
+      input:
+        url: "github.com?owner=barronandersonmongo&repo=tfe-test"
+        targetPath: ./workspace
+
+
     - id: create-file
       name: Create Cluster Config File
       action: roadiehq:utils:fs:write
