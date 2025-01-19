@@ -28,14 +28,18 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: JunkO
+          title: JunkP
           type: string
   steps:
     - id: fetch-repo
       name: Fetch repo
-      action: fetch:plain
+      action: fetch:template
       input:
-        url: https://github.com/barronandersonmongo/tfe-test
+        values:
+          cluster_name: ${{ parameters.clusterName }}
+          provider_instance_size_name: ${{ parameters.clusterSize }}
+        url: ./skeleton  # Ensure this exists in your workspace
+        targetPath: ./new_cluster_requests/${{ parameters.clusterName }}
 
     - id: write-to-file
       name: Overwrite File Or Create New
@@ -46,17 +50,13 @@ spec:
           clusterName: ${{ parameters.clusterName }}
           clusterSize: ${{ parameters.clusterSize }}
 
-    - id: publish-pr
-      name: Publish PR
-      action: publish:github:pull-request
+    - id: publish-to-github
+      name: Publish to GitHub
+      action: github:repo:push
       input:
-        repoUrl: github.com?repo=tfe-test&owner=barronandersonmongo
-        branchName: main
-        title: Write content to main
-        description: Testing
+        repoUrl: "github.com?owner=barronandersonmongo&repo=tfe-test"
+        defaultBranch: main
+        sourcePath: "new_cluster_requests/"
+        gitCommitMessage: ${{ parameters.comments }}
+        force: true
 
-    - id: log-message
-      name: Log PR URL
-      action: debug:log
-      input:
-        message: 'RemoteURL: ${{ steps["publish-pr"].output.remoteUrl }}'
