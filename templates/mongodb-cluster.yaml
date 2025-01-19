@@ -28,7 +28,7 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: JunkY
+          title: JunkZ
           type: string
   steps:
     - id: write-to-file
@@ -36,7 +36,7 @@ spec:
       action: roadiehq:utils:fs:write
       input:
         path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
-        content: "cluster_name: ${{ parameters.clusterName }}"
+        content: "cluster_name: ${{ parameters.clusterName }} \n"
 
    #- id: append-cluster-name
    #name: Append the Cluster Name
