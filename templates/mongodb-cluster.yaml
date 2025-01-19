@@ -28,18 +28,23 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: JunkV
+          title: JunkW
           type: string
   steps:
 
-    - id: write-to-file
-      name: Overwrite File Or Create New
-      action: roadiehq:utils:fs:write
+    - id: append-cluster-name
+      name: Append the Cluster Name
+      action: roadiehq:utils:fs:append
       input:
         path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
-        content: |
-          cluster_name: {{ parameters.clusterName }}
-          provider_instance_size_name: {{ parameters.clusterSize == 'Large' ? 'M30' : parameters.clusterSize == 'Medium' ? 'M20' : 'M10' }}
+        content: cluster_name: ${{ parameters.clusterName }}
+
+    - id: append-cluster-size
+      name: Append the Cluster Size
+      action: roadiehq:utils:fs:append
+      input:
+        path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
+        content: provider_instance_size_name: ${{ parameters.clusterSize == 'Large' ? 'M30' : parameters.clusterSize == 'Medium' ? 'M20' : 'M10' }}
 
     - id: publish-pr
       name: Publish PR
