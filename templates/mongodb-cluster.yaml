@@ -28,7 +28,7 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: Junkj
+          title: Junkk
           type: string
   steps:
     - id: create-file
@@ -48,14 +48,4 @@ spec:
         branchName: "feature/new-cluster-${{ parameters.clusterName }}"
         sourcePath: ./new_cluster_requests/
         gitCommitMessage: "Add cluster configuration for ${{ parameters.clusterName }}"
-
-    - id: publish-to-github
-      name: Create Pull Request
-      action: publish:github:pull-request
-      input:
-        repoUrl: "github.com?owner=barronandersonmongo&repo=tfe-test"
-        defaultBranch: main  # Target branch
-        branchName: "feature/new-cluster-${{ parameters.clusterName }}"  # Source branch
-        title: "New Cluster Request for ${{ parameters.clusterName }}"
-        description: "Cluster Size: ${{ parameters.clusterSize }}\n\nComments: ${{ parameters.comments }}"
 
