@@ -28,7 +28,7 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: Junkl
+          title: JunkM
           type: string
   steps:
     - id: create-file
@@ -50,4 +50,4 @@ spec:
         branchName: main
         sourcePath: ./new_cluster_requests/
         gitCommitMessage: "Add cluster configuration for ${{ parameters.clusterName }}"
-
+        force: true
