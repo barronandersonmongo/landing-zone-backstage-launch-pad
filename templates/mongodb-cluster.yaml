@@ -26,6 +26,9 @@ spec:
         comments:
           title: Request Comments
           type: string
+        junk:
+          title: Junk
+          type: string
   steps:
     - id: create-file
       name: Create Cluster Config File
