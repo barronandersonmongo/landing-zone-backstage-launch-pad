@@ -27,23 +27,17 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: Junkd
+          title: Junkf
           type: string
   steps:
-    - id: fetch-repo
-      name: Fetch repo
-      action: fetch:plain
-      input:
-        url: https://github.com/barronandersonmongo/tfe-test
-
     - id: create-file
       name: Create Cluster Config File
       action: roadiehq:utils:fs:write
       input:
-        path: "new_cluster_requests/${{ parameters.clusterName }}.yaml"
+        path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
         content: |
-          cluster_name: ${{ parameters.clusterName }}
-          provider_instance_size_name: ${{ parameters.clusterSize }}
+          clusterName: ${{ parameters.clusterName }}
+          clusterSize: ${{ parameters.clusterSize }}
 
     - id: publish-to-github
       name: Publish to GitHub
@@ -53,6 +47,6 @@ spec:
         defaultBranch: main
         branch: main
         branchName: main
-        sourcePath: "new_cluster_requests/"
+        # sourcePath: "new_cluster_requests/"
         gitCommitMessage: ${{ parameters.comments }}
-        force: true
+        # force: true
