@@ -27,7 +27,7 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: Junkh
+          title: Junki
           type: string
   steps:
 
@@ -50,6 +50,6 @@ spec:
         branchName: main
         title: "New Cluster Request"
         description: "New Cluster Request"
-        # sourcePath: "new_cluster_requests/"
+        sourcePath: "new_cluster_requests/"
         gitCommitMessage: ${{ parameters.comments }}
         # force: true
