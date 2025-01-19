@@ -28,7 +28,7 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: JunkS
+          title: JunkT
           type: string
   steps:
 
@@ -46,8 +46,9 @@ spec:
       action: publish:github:pull-request
       input:
         repoUrl: github.com?owner=barronandersonmongo&repo=tfe-test
-        branchName: main
-        title: Specify Node Engine Versions
+        branchName: "feature/new-cluster-${{ parameters.clusterName }}" 
+        defaultBranch: main
+        title: New Cluster Request for ${{ parameters.clusterName }}
         description: This PR was created by a Backstage scaffolder task
 
     - id: log-message
