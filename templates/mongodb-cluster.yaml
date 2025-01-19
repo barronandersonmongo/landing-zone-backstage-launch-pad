@@ -28,7 +28,7 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: JunkP
+          title: JunkR
           type: string
   steps:
     - id: fetch-repo
@@ -50,13 +50,17 @@ spec:
           clusterName: ${{ parameters.clusterName }}
           clusterSize: ${{ parameters.clusterSize }}
 
-    - id: publish-to-github
-      name: Publish to GitHub
-      action: github:repo:push
+    - id: publish-pr
+      name: Publish PR
+      action: publish:github:pull-request
       input:
-        repoUrl: "github.com?owner=barronandersonmongo&repo=tfe-test"
-        defaultBranch: main
-        sourcePath: "new_cluster_requests/"
-        gitCommitMessage: ${{ parameters.comments }}
-        force: true
+        repoUrl: github.com?owner=barronandersonmongo&repo=tfe-test
+        branchName: main
+        title: Specify Node Engine Versions
+        description: This PR was created by a Backstage scaffolder task
 
+    - id: log-message
+      name: Log PR URL
+      action: debug:log
+      input:
+        message: 'RemoteURL: ${{ steps["publish-pr"].output.remoteUrl }}
