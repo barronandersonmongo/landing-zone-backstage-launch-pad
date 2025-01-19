@@ -28,18 +28,9 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: JunkR
+          title: JunkS
           type: string
   steps:
-    - id: fetch-repo
-      name: Fetch repo
-      action: fetch:template
-      input:
-        values:
-          cluster_name: ${{ parameters.clusterName }}
-          provider_instance_size_name: ${{ parameters.clusterSize }}
-        url: ./skeleton  # Ensure this exists in your workspace
-        targetPath: ./new_cluster_requests/${{ parameters.clusterName }}
 
     - id: write-to-file
       name: Overwrite File Or Create New
