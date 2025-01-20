@@ -18,17 +18,20 @@ spec:
           type: string
           title: Cluster Name
         clusterSize:
-          type: string
+          type: select
           title: Cluster Size
-          enum:
-            - Small
-            - Medium
-            - Large
+          options:
+            - label: Small
+              value: M10
+            - label: Medium
+              value: M20
+            - label: Large
+              value: M30
         comments:
           title: Request Comments
           type: string
         junk:
-          title: JunkC
+          title: JunkD
           type: string
   steps:
     - id: write-to-file
@@ -37,7 +40,8 @@ spec:
       input:
         path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
         content: |
-          provider_instance_size_name: ${{ parameters.clusterSize == 'Large' ? 'M30' : parameters.clusterSize == 'Medium' ? 'M20' : 'M10' }}
+          cluster_name: ${{ parameters.clusterName }}
+          provider_instance_size_name: ${{ parameters.clusterSize }}
 
    #- id: append-cluster-name
    #name: Append the Cluster Name
@@ -46,12 +50,12 @@ spec:
    #path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
    #content: "cluster_name: ${{ parameters.clusterName }}"
 
-    - id: append-cluster-size
-      name: Append the Cluster Size
-      action: roadiehq:utils:fs:append
-      input:
-        path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
-        content: "cluster_name: ${{ parameters.clusterName }} \n"
+            #    - id: append-cluster-size
+            #name: Append the Cluster Size
+            #action: roadiehq:utils:fs:append
+            #input:
+            #path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
+            # content: "cluster_name: ${{ parameters.clusterName }} \n"
 
     - id: publish-pr
       name: Publish PR
@@ -63,8 +67,3 @@ spec:
         title: New Cluster Request for ${{ parameters.clusterName }}
         description: This PR was created by a Backstage scaffolder task
 
-    - id: log-message
-      name: Log PR URL
-      action: debug:log
-      input:
-        message: 'BARRY BARRY BARRY - RemoteURL: ${{ steps["publish-pr"].output.remoteUrl }}'
