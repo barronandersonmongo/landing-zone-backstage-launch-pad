@@ -19,9 +19,6 @@ spec:
         comments:
           title: Request Comments
           type: string
-        junk:
-          title: JunkE
-          type: string
   steps:
     - id: write-to-file
       name: Create New File
@@ -40,5 +37,5 @@ spec:
         branchName: "feature/new-cluster-${{ parameters.clusterName }}" 
         defaultBranch: main
         title: New Cluster Request for ${{ parameters.clusterName }}
-        description: This PR was created by a Backstage scaffolder task
+        description: ${{ parameter.comments }}
 
