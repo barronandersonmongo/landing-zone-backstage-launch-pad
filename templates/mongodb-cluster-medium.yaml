@@ -2,8 +2,8 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: mongodb-cluster-config
-  title: "Generate MongoDB Cluster YAML"
-  description: "Asks user for cluster details and publishes a YAML configuration file to a target GitHub repository."
+  title: "Medium MongoDB Cluster"
+  description: "Request to deploy a new meduim-sized MongoDB Atlas Cluster."
 spec:
   owner: gary@barry.mdbpsce.net
   type: configuration
