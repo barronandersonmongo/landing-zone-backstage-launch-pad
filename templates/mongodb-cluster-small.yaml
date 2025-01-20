@@ -1,7 +1,7 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mongodb-cluster-config
+  name: mongodb-cluster-small-config
   title: "Small MongoDB Cluster"
   description: "Request to deploy a new small-sized MongoDB Atlas Cluster."
 spec:
