@@ -28,7 +28,7 @@ spec:
           title: Request Comments
           type: string
         junk:
-          title: JunkA
+          title: JunkB
           type: string
   steps:
     - id: write-to-file
@@ -36,7 +36,7 @@ spec:
       action: roadiehq:utils:fs:write
       input:
         path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
-        content: "provider_instance_size_name: ${{ parameters.clusterSize == 'Large' ? 'M30' : parameters.clusterSize == 'Medium' ? 'M20' : 'M10' }}"
+        content: "provider_instance_size_name: " ${{ parameters.clusterSize | replace( 'Large', 'M30' ) }}${{ parameters.clusterSize | replace( 'Medium', 'M20' ) }}${{ parameters.clusterSize | replace ( 'Small', 'M10' ) }}"\n"
 
    #- id: append-cluster-name
    #name: Append the Cluster Name
