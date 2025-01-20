@@ -37,5 +37,5 @@ spec:
         branchName: "feature/new-cluster-${{ parameters.clusterName }}" 
         defaultBranch: main
         title: New Cluster Request for ${{ parameters.clusterName }}
-        description: ${{ parameter.comments }}
+        description: ${{ parameters.comments }}
 
