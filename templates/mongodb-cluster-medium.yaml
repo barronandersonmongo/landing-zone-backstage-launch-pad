@@ -11,27 +11,16 @@ spec:
     - title: Cluster Configuration
       required:
         - clusterName
-        - clusterSize
         - comments
       properties:
         clusterName:
           type: string
           title: Cluster Name
-        clusterSize:
-          type: select
-          title: Cluster Size
-          options:
-            - label: Small
-              value: M10
-            - label: Medium
-              value: M20
-            - label: Large
-              value: M30
         comments:
           title: Request Comments
           type: string
         junk:
-          title: JunkD
+          title: JunkE
           type: string
   steps:
     - id: write-to-file
@@ -41,21 +30,7 @@ spec:
         path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
         content: |
           cluster_name: ${{ parameters.clusterName }}
-          provider_instance_size_name: ${{ parameters.clusterSize }}
-
-   #- id: append-cluster-name
-   #name: Append the Cluster Name
-   #action: roadiehq:utils:fs:append
-   #input:
-   #path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
-   #content: "cluster_name: ${{ parameters.clusterName }}"
-
-            #    - id: append-cluster-size
-            #name: Append the Cluster Size
-            #action: roadiehq:utils:fs:append
-            #input:
-            #path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
-            # content: "cluster_name: ${{ parameters.clusterName }} \n"
+          provider_instance_size_name: M20
 
     - id: publish-pr
       name: Publish PR

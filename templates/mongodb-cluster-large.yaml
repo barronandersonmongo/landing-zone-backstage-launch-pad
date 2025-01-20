@@ -1,0 +1,44 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mongodb-cluster-config
+  title: "Generate MongoDB Cluster YAML"
+  description: "Asks user for cluster details and publishes a YAML configuration file to a target GitHub repository."
+spec:
+  owner: gary@barry.mdbpsce.net
+  type: configuration
+  parameters:
+    - title: Cluster Configuration
+      required:
+        - clusterName
+        - comments
+      properties:
+        clusterName:
+          type: string
+          title: Cluster Name
+        comments:
+          title: Request Comments
+          type: string
+        junk:
+          title: JunkE
+          type: string
+  steps:
+    - id: write-to-file
+      name: Create New File
+      action: roadiehq:utils:fs:write
+      input:
+        path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
+        content: |
+          cluster_name: ${{ parameters.clusterName }}
+          provider_instance_size_name: M30
+
+    - id: publish-pr
+      name: Publish PR
+      action: publish:github:pull-request
+      input:
+        repoUrl: github.com?owner=barronandersonmongo&repo=tfe-test
+        branchName: "feature/new-cluster-${{ parameters.clusterName }}" 
+        defaultBranch: main
+        title: New Cluster Request for ${{ parameters.clusterName }}
+        description: This PR was created by a Backstage scaffolder task
+
