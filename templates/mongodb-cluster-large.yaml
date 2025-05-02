@@ -24,7 +24,7 @@ spec:
       name: Create New File
       action: roadiehq:utils:fs:write
       input:
-        path: ./new_cluster_requests/${{ parameters.clusterName }}.yaml
+        path: ./requests/${{ parameters.clusterName }}.yaml
         content: |
           cluster_name: ${{ parameters.clusterName }}
           provider_instance_size_name: M30
